@@ -6,6 +6,15 @@ import type Server from '../../../Server';
 import fs from 'fs';
 import path from 'path';
 
+/**
+ * Format
+ *
+ * byte - version
+ * int - chunk data size
+ * data - chunk data
+ * int - entities data size
+ * data - entities data
+ */
 export default class Filesystem extends BaseProvider {
     public constructor(folderPath: string, server: Server) {
         super(folderPath, server);
@@ -17,10 +26,21 @@ export default class Filesystem extends BaseProvider {
 
     public async readChunk(cx: number, cz: number, seed: number, generator: Generator, config?: any): Promise<Chunk> {
         try {
-            const buffer = Buffer.from(
-                await fs.promises.readFile(path.join(this.getPath(), 'chunks', `${cx}_${cz}.dat`))
+            const buffer = new BinaryStream(
+                Buffer.from(await fs.promises.readFile(path.join(this.getPath(), 'chunks', `${cx}_${cz}.dat`)))
             );
-            const chunk = Chunk.networkDeserialize(new BinaryStream(buffer));
+
+            const version = buffer.readByte();
+            if (version !== 1) throw new Error(`Invalid chunk version "${version}"`);
+
+            const chunkSize = buffer.readInt();
+            const chunkData = buffer.read(chunkSize);
+            const entitiesSize = buffer.readInt();
+            const entitiesData = buffer.read(entitiesSize);
+
+            // TODO: parse entities
+
+            const chunk = Chunk.networkDeserialize(new BinaryStream(chunkData));
             (chunk as any).x = cx;
             (chunk as any).z = cz;
             return chunk;
@@ -30,10 +50,18 @@ export default class Filesystem extends BaseProvider {
     }
 
     public async writeChunk(chunk: Chunk): Promise<void> {
-        // TODO: format version, entities etc
+        const data = chunk.networkSerialize(true);
+
+        const buf = new BinaryStream();
+        buf.writeByte(1); // format version
+        buf.writeInt(data.length); // chunk data size
+        buf.append(data); // chunk data
+        buf.writeInt(0); // entities data size
+        // TODO: entities
+
         await fs.promises.writeFile(
             path.join(this.getPath(), 'chunks', `${chunk.getX()}_${chunk.getZ()}.dat`),
-            chunk.networkSerialize(true)
+            buf.getBuffer()
         );
     }
 }
