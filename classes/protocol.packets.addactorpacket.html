@@ -71,6 +71,63 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>Packet for adding an entity to the game.</p>
+					</div>
+					<p><strong>Bound To:</strong> Client</p>
+					<table>
+						<thead>
+							<tr>
+								<th>Name</th>
+								<th align="center">Type</th>
+								<th align="center">Notes</th>
+							</tr>
+						</thead>
+						<tbody><tr>
+								<td>uniqueEntityId</td>
+								<td align="center">VarLong</td>
+								<td align="center"></td>
+							</tr>
+							<tr>
+								<td>runtimeEntityId</td>
+								<td align="center">UnsignedVarLong</td>
+								<td align="center"></td>
+							</tr>
+							<tr>
+								<td>type</td>
+								<td align="center">String</td>
+								<td align="center">The namespaced entity ID</td>
+							</tr>
+							<tr>
+								<td>position</td>
+								<td align="center">Vector3 (LFloat)</td>
+								<td align="center">The entity&#39;s position</td>
+							</tr>
+							<tr>
+								<td>motion</td>
+								<td align="center">Vector3 (LFloat)</td>
+								<td align="center">The entity&#39;s motion</td>
+							</tr>
+							<tr>
+								<td>pitch</td>
+								<td align="center">LFloat</td>
+								<td align="center"></td>
+							</tr>
+							<tr>
+								<td>yaw</td>
+								<td align="center">LFloat</td>
+								<td align="center"></td>
+							</tr>
+							<tr>
+								<td>headYaw</td>
+								<td align="center">LFloat</td>
+								<td align="center"></td>
+							</tr>
+					</tbody></table>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -101,17 +158,13 @@
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#headyaw" class="tsd-kind-icon">head<wbr>Yaw</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#links" class="tsd-kind-icon">links</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#metadata" class="tsd-kind-icon">metadata</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#motionx" class="tsd-kind-icon">motionX</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#motiony" class="tsd-kind-icon">motionY</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#motionz" class="tsd-kind-icon">motionZ</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#motion" class="tsd-kind-icon">motion</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#pitch" class="tsd-kind-icon">pitch</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#position" class="tsd-kind-icon">position</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#runtimeentityid" class="tsd-kind-icon">runtime<wbr>Entity<wbr>Id</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#type" class="tsd-kind-icon">type</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#uniqueentityid" class="tsd-kind-icon">unique<wbr>Entity<wbr>Id</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#x" class="tsd-kind-icon">x</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#y" class="tsd-kind-icon">y</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#yaw" class="tsd-kind-icon">yaw</a></li>
-								<li class="tsd-kind-property tsd-parent-kind-class"><a href="protocol.packets.addactorpacket.html#z" class="tsd-kind-icon">z</a></li>
 								<li class="tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static"><a href="protocol.packets.addactorpacket.html#netid" class="tsd-kind-icon">NetID</a></li>
 							</ul>
 						</section>
@@ -222,7 +275,7 @@
 					<div class="tsd-signature tsd-kind-icon">attributes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L20">packages/prismarine/src/network/packet/AddActorPacket.ts:20</a></li>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L35">packages/prismarine/src/network/packet/AddActorPacket.ts:35</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -232,7 +285,7 @@
 					<div class="tsd-signature tsd-kind-icon">head<wbr>Yaw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L18">packages/prismarine/src/network/packet/AddActorPacket.ts:18</a></li>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L33">packages/prismarine/src/network/packet/AddActorPacket.ts:33</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -242,7 +295,7 @@
 					<div class="tsd-signature tsd-kind-icon">links<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">never</span><span class="tsd-signature-symbol">[]</span><span class="tsd-signature-symbol"> = []</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L22">packages/prismarine/src/network/packet/AddActorPacket.ts:22</a></li>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L37">packages/prismarine/src/network/packet/AddActorPacket.ts:37</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -252,37 +305,17 @@
 					<div class="tsd-signature tsd-kind-icon">metadata<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-symbol">[</span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">bigint</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol">]</span><span class="tsd-signature-symbol">&gt;</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L21">packages/prismarine/src/network/packet/AddActorPacket.ts:21</a></li>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L36">packages/prismarine/src/network/packet/AddActorPacket.ts:36</a></li>
 						</ul>
 					</aside>
 				</section>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="motionx" class="tsd-anchor"></a>
-					<h3>motionX</h3>
-					<div class="tsd-signature tsd-kind-icon">motionX<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
+					<a name="motion" class="tsd-anchor"></a>
+					<h3>motion</h3>
+					<div class="tsd-signature tsd-kind-icon">motion<span class="tsd-signature-symbol">:</span> <a href="math.vector3.html" class="tsd-signature-type" data-tsd-kind="Class">Vector3</a><span class="tsd-signature-symbol"> = ...</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L13">packages/prismarine/src/network/packet/AddActorPacket.ts:13</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="motiony" class="tsd-anchor"></a>
-					<h3>motionY</h3>
-					<div class="tsd-signature tsd-kind-icon">motionY<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L14">packages/prismarine/src/network/packet/AddActorPacket.ts:14</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="motionz" class="tsd-anchor"></a>
-					<h3>motionZ</h3>
-					<div class="tsd-signature tsd-kind-icon">motionZ<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L15">packages/prismarine/src/network/packet/AddActorPacket.ts:15</a></li>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L30">packages/prismarine/src/network/packet/AddActorPacket.ts:30</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -292,7 +325,17 @@
 					<div class="tsd-signature tsd-kind-icon">pitch<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L16">packages/prismarine/src/network/packet/AddActorPacket.ts:16</a></li>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L31">packages/prismarine/src/network/packet/AddActorPacket.ts:31</a></li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
+					<a name="position" class="tsd-anchor"></a>
+					<h3>position</h3>
+					<div class="tsd-signature tsd-kind-icon">position<span class="tsd-signature-symbol">:</span> <a href="math.vector3.html" class="tsd-signature-type" data-tsd-kind="Class">Vector3</a><span class="tsd-signature-symbol"> = ...</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L29">packages/prismarine/src/network/packet/AddActorPacket.ts:29</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -302,7 +345,7 @@
 					<div class="tsd-signature tsd-kind-icon">runtime<wbr>Entity<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">bigint</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L8">packages/prismarine/src/network/packet/AddActorPacket.ts:8</a></li>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L27">packages/prismarine/src/network/packet/AddActorPacket.ts:27</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -312,7 +355,7 @@
 					<div class="tsd-signature tsd-kind-icon">type<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L9">packages/prismarine/src/network/packet/AddActorPacket.ts:9</a></li>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L28">packages/prismarine/src/network/packet/AddActorPacket.ts:28</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -322,27 +365,7 @@
 					<div class="tsd-signature tsd-kind-icon">unique<wbr>Entity<wbr>Id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">bigint</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L7">packages/prismarine/src/network/packet/AddActorPacket.ts:7</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="x" class="tsd-anchor"></a>
-					<h3>x</h3>
-					<div class="tsd-signature tsd-kind-icon">x<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L10">packages/prismarine/src/network/packet/AddActorPacket.ts:10</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="y" class="tsd-anchor"></a>
-					<h3>y</h3>
-					<div class="tsd-signature tsd-kind-icon">y<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L11">packages/prismarine/src/network/packet/AddActorPacket.ts:11</a></li>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L26">packages/prismarine/src/network/packet/AddActorPacket.ts:26</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -352,17 +375,7 @@
 					<div class="tsd-signature tsd-kind-icon">yaw<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L17">packages/prismarine/src/network/packet/AddActorPacket.ts:17</a></li>
-						</ul>
-					</aside>
-				</section>
-				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class">
-					<a name="z" class="tsd-anchor"></a>
-					<h3>z</h3>
-					<div class="tsd-signature tsd-kind-icon">z<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">number</span></div>
-					<aside class="tsd-sources">
-						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L12">packages/prismarine/src/network/packet/AddActorPacket.ts:12</a></li>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L32">packages/prismarine/src/network/packet/AddActorPacket.ts:32</a></li>
 						</ul>
 					</aside>
 				</section>
@@ -373,7 +386,7 @@
 					<aside class="tsd-sources">
 						<p>Overrides <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#netid">NetID</a></p>
 						<ul>
-							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L5">packages/prismarine/src/network/packet/AddActorPacket.ts:5</a></li>
+							<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L24">packages/prismarine/src/network/packet/AddActorPacket.ts:24</a></li>
 						</ul>
 					</aside>
 					<div class="tsd-comment tsd-typography">
@@ -462,7 +475,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#decode">decode</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/DataPacket.ts#L36">packages/prismarine/src/network/packet/DataPacket.ts:36</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/DataPacket.ts#L42">packages/prismarine/src/network/packet/DataPacket.ts:42</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -480,7 +493,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#decodeheader">decodeHeader</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/DataPacket.ts#L47">packages/prismarine/src/network/packet/DataPacket.ts:47</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/DataPacket.ts#L53">packages/prismarine/src/network/packet/DataPacket.ts:53</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -498,7 +511,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#decodepayload">decodePayload</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/DataPacket.ts#L61">packages/prismarine/src/network/packet/DataPacket.ts:61</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/DataPacket.ts#L67">packages/prismarine/src/network/packet/DataPacket.ts:67</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -521,7 +534,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#encode">encode</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/DataPacket.ts#L63">packages/prismarine/src/network/packet/DataPacket.ts:63</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/DataPacket.ts#L69">packages/prismarine/src/network/packet/DataPacket.ts:69</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -539,7 +552,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#encodeheader">encodeHeader</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/DataPacket.ts#L70">packages/prismarine/src/network/packet/DataPacket.ts:70</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/DataPacket.ts#L76">packages/prismarine/src/network/packet/DataPacket.ts:76</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -557,7 +570,7 @@
 							<aside class="tsd-sources">
 								<p>Overrides <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#encodepayload">encodePayload</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/AddActorPacket.ts#L24">packages/prismarine/src/network/packet/AddActorPacket.ts:24</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/AddActorPacket.ts#L39">packages/prismarine/src/network/packet/AddActorPacket.ts:39</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
@@ -598,7 +611,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#getallowbatching">getAllowBatching</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/DataPacket.ts#L81">packages/prismarine/src/network/packet/DataPacket.ts:81</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/DataPacket.ts#L87">packages/prismarine/src/network/packet/DataPacket.ts:87</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -634,7 +647,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#getencoded">getEncoded</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/DataPacket.ts#L23">packages/prismarine/src/network/packet/DataPacket.ts:23</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/DataPacket.ts#L29">packages/prismarine/src/network/packet/DataPacket.ts:29</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
@@ -652,7 +665,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#getid">getId</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/DataPacket.ts#L19">packages/prismarine/src/network/packet/DataPacket.ts:19</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/DataPacket.ts#L25">packages/prismarine/src/network/packet/DataPacket.ts:25</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">any</span></h4>
@@ -670,7 +683,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#getname">getName</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/packet/DataPacket.ts#L32">packages/prismarine/src/network/packet/DataPacket.ts:32</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/packet/DataPacket.ts#L38">packages/prismarine/src/network/packet/DataPacket.ts:38</a></li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -1152,7 +1165,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#readstring">readString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/PacketBinaryStream.ts#L4">packages/prismarine/src/network/PacketBinaryStream.ts:4</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/PacketBinaryStream.ts#L4">packages/prismarine/src/network/PacketBinaryStream.ts:4</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -1735,7 +1748,7 @@
 							<aside class="tsd-sources">
 								<p>Inherited from <a href="protocol.packets.datapacket.html">DataPacket</a>.<a href="protocol.packets.datapacket.html#writestring">writeString</a></p>
 								<ul>
-									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/8b26e3c/packages/prismarine/src/network/PacketBinaryStream.ts#L8">packages/prismarine/src/network/PacketBinaryStream.ts:8</a></li>
+									<li>Defined in <a href="https://github.com/JSPrismarine/JSPrismarine/blob/53927e1/packages/prismarine/src/network/PacketBinaryStream.ts#L8">packages/prismarine/src/network/PacketBinaryStream.ts:8</a></li>
 								</ul>
 							</aside>
 							<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1968,16 +1981,13 @@
 								<a href="protocol.packets.addactorpacket.html#metadata" class="tsd-kind-icon">metadata</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="protocol.packets.addactorpacket.html#motionx" class="tsd-kind-icon">motionX</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="protocol.packets.addactorpacket.html#motiony" class="tsd-kind-icon">motionY</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="protocol.packets.addactorpacket.html#motionz" class="tsd-kind-icon">motionZ</a>
+								<a href="protocol.packets.addactorpacket.html#motion" class="tsd-kind-icon">motion</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="protocol.packets.addactorpacket.html#pitch" class="tsd-kind-icon">pitch</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-class">
+								<a href="protocol.packets.addactorpacket.html#position" class="tsd-kind-icon">position</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="protocol.packets.addactorpacket.html#runtimeentityid" class="tsd-kind-icon">runtime<wbr>Entity<wbr>Id</a>
@@ -1989,16 +1999,7 @@
 								<a href="protocol.packets.addactorpacket.html#uniqueentityid" class="tsd-kind-icon">unique<wbr>Entity<wbr>Id</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="protocol.packets.addactorpacket.html#x" class="tsd-kind-icon">x</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="protocol.packets.addactorpacket.html#y" class="tsd-kind-icon">y</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
 								<a href="protocol.packets.addactorpacket.html#yaw" class="tsd-kind-icon">yaw</a>
-							</li>
-							<li class=" tsd-kind-property tsd-parent-kind-class">
-								<a href="protocol.packets.addactorpacket.html#z" class="tsd-kind-icon">z</a>
 							</li>
 							<li class=" tsd-kind-property tsd-parent-kind-class tsd-is-overwrite tsd-is-static">
 								<a href="protocol.packets.addactorpacket.html#netid" class="tsd-kind-icon">NetID</a>
