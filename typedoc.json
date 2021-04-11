@@ -1,0 +1,10 @@
+{
+    "tsconfig": "./tsconfig.json",
+    "name": "JSPrismarine",
+    "readme": "./README.md",
+    "out": "./docs",
+    "mode": "modules",
+    "excludePrivate": true,
+    "excludeProtected": true,
+    "exclude": ["*.js"]
+}

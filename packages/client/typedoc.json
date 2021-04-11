@@ -1,9 +1,9 @@
 {
-    "entryPoints": ["./src/Prismarine.ts"],
+    "entryPoints": ["./src/Client.ts"],
     "tsconfig": "./src/tsconfig.json",
     "includes": ["./src"],
-    "readme": "../../README.md",
-    "out": "../../docs/prismarine",
+    "readme": "./README.md",
+    "out": "../../docs/client",
     "excludePrivate": true,
     "excludeProtected": true,
     "excludeInternal": true
