@@ -66,6 +66,13 @@
 <div class="container container-main">
 	<div class="row">
 		<div class="col-8 col-content">
+			<section class="tsd-panel tsd-comment">
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>General config-file handler.</p>
+					</div>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-hierarchy">
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
@@ -110,7 +117,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:3</li>
+									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:6</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -141,7 +148,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:43</li>
+									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:53</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -159,7 +166,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if the deletion was successful.</p>
+							<p>true if the deletion was successful</p>
 						</li>
 					</ul>
 				</section>
@@ -173,7 +180,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:25</li>
+									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:33</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -211,7 +218,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:13</li>
+									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:16</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -234,10 +241,16 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:14</li>
+									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:22</li>
 								</ul>
 							</aside>
+							<div class="tsd-comment tsd-typography">
+								<div class="lead">
+									<p>Get the config format (eg. type).</p>
+								</div>
+							</div>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">&quot;yaml&quot;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">&quot;json&quot;</span></h4>
+							<p>either <code>yaml</code> or <code>json</code></p>
 						</li>
 					</ul>
 				</section>
@@ -251,7 +264,7 @@
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:36</li>
+									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:46</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -269,7 +282,7 @@
 								</li>
 							</ul>
 							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
-							<p>true if the config contains that key.</p>
+							<p>true if the config contains that key</p>
 						</li>
 					</ul>
 				</section>
@@ -277,13 +290,13 @@
 					<a name="set" class="tsd-anchor"></a>
 					<h3>set</h3>
 					<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
-						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">void</span></li>
+						<li class="tsd-signature tsd-kind-icon">set<span class="tsd-signature-symbol">(</span>key<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span>, value<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">boolean</span></li>
 					</ul>
 					<ul class="tsd-descriptions">
 						<li class="tsd-description">
 							<aside class="tsd-sources">
 								<ul>
-									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:29</li>
+									<li>Defined in packages/prismarine/dist/config/ConfigBuilder.d.ts:39</li>
 								</ul>
 							</aside>
 							<div class="tsd-comment tsd-typography">
@@ -300,7 +313,8 @@
 									<h5>value: <span class="tsd-signature-type">any</span></h5>
 								</li>
 							</ul>
-							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">void</span></h4>
+							<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">boolean</span></h4>
+							<p>true if the value was set successfully</p>
 						</li>
 					</ul>
 				</section>
