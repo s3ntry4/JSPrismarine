@@ -229,11 +229,12 @@ export default class PlayerConnection {
     }
 
     public async sendInventory(): Promise<void> {
-        const pk = new InventoryContentPacket();
-        pk.items = this.player.getInventory().getItems(true);
-        pk.windowId = WindowIds.INVENTORY; // Inventory window
-        await this.sendDataPacket(pk);
-        await this.sendHandItem(this.player.getInventory().getItemInHand());
+        // TODO
+        // const pk = new InventoryContentPacket();
+        // pk.items = this.player.getInventory().getItems(true);
+        // pk.windowId = WindowIds.INVENTORY; // Inventory window
+        // await this.sendDataPacket(pk);
+        // await this.sendHandItem(this.player.getInventory().getItemInHand());
 
         /* TODO: not working..
         pk = new InventoryContentPacket();
@@ -453,7 +454,7 @@ export default class PlayerConnection {
      * @param needsTranslation If the TextType requires translation
      * @param type The text type
      */
-    public async sendMessage(message: string, xuid = '', needsTranslation = false, type = TextType.Raw): Promise<void> {
+    public async sendMessage(message: string, xuid = '', needsTranslation = false, type = TextType.Chat): Promise<void> {
         if (!message) throw new Error('A message is required');
 
         const pk = new TextPacket();
@@ -461,6 +462,7 @@ export default class PlayerConnection {
         pk.message = message;
         pk.needsTranslation = needsTranslation;
         pk.xuid = xuid;
+        pk.sourceName = '';  // TODO
         pk.platformChatId = ''; // TODO
         await this.sendDataPacket(pk);
     }

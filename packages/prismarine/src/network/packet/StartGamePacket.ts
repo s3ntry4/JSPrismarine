@@ -119,23 +119,4 @@ export default class StartGamePacket extends DataPacket {
         this.writeString('');
         this.writeBool(false); // New inventory system
     }
-
-    /*
-    TODO
-    public serializeItemTable(table: object): Buffer {
-        if (this.cachedItemPalette === null) {
-            let stream = new PacketBinaryStream();
-            let entries = Object.entries(table);
-            stream.writeUnsignedVarInt(entries.length);
-            entries.map(([name, id]) => {
-                stream.writeString(name);
-                stream.writeLShort(id);
-                stream.writeByte(0);
-            });
-            this.cachedItemPalette = stream.getBuffer();
-        }
-
-        return this.cachedItemPalette as Buffer;
-    }
-    */
 }

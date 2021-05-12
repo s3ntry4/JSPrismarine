@@ -241,7 +241,7 @@ export default class Player extends Human {
      * Send a chat message to the client.
      * @param message the message
      */
-    public async sendMessage(message: string, type: TextType = TextType.Raw): Promise<void> {
+    public async sendMessage(message: string, type: TextType = TextType.Chat): Promise<void> {
         // TODO: Do this properly like java edition,
         // in other words, the message should be JSON formatted.
         await this.playerConnection.sendMessage(message, '', false, type);
@@ -253,7 +253,8 @@ export default class Player extends Human {
         if (event.cancelled) return;
 
         this.gamemode = event.getGamemode();
-        await this.playerConnection.sendGamemode(this.gamemode);
+        // TODO: Do not send before spawn sequence...
+        // await this.playerConnection.sendGamemode(this.gamemode);
 
         if (this.gamemode === Gamemode.Creative || this.gamemode === Gamemode.Spectator) this.allowFight = true;
         else {

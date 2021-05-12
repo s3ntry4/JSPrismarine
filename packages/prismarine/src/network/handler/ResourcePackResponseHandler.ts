@@ -55,7 +55,7 @@ export default class ResourcePackResponseHandler implements PacketHandler<Resour
 
             await player.getConnection().sendDataPacket(new BiomeDefinitionListPacket());
 
-            await player.getConnection().sendAttributes(player.getAttributeManager().getDefaults());
+            // await player.getConnection().sendAttributes(player.getAttributeManager().getDefaults());
 
             server
                 .getLogger()
@@ -68,14 +68,14 @@ export default class ResourcePackResponseHandler implements PacketHandler<Resour
 
             player.setNameTag(player.getName());
             // TODO: always visible nametag
-            await player.getConnection().sendMetadata();
-            await player.getConnection().sendAvailableCommands();
-            await player.getConnection().sendInventory();
+            // await player.getConnection().sendMetadata();
+            // await player.getConnection().sendAvailableCommands();
+            // await player.getConnection().sendInventory();
 
-            await player.getConnection().sendCreativeContents();
+            await player.getConnection().sendCreativeContents(true);
 
             // First add
-            await player.getConnection().addToPlayerList();
+            // await player.getConnection().addToPlayerList();
             // Then retrieve other players
             if (server.getPlayerManager().getOnlinePlayers().length > 1) {
                 await player.getConnection().sendPlayerList();
