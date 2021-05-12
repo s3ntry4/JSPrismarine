@@ -229,7 +229,7 @@ export default class Entity extends Position {
      * @param message The message
      * @param type The text type
      */
-    public sendMessage(message: string, type: TextType = TextType.Raw) {}
+    public sendMessage(message: string, type: TextType = TextType.Chat) {}
 
     /**
      * Get the entity's position.

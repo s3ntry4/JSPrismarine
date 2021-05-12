@@ -75,7 +75,8 @@ export default class Player extends Human {
      */
     public constructor(connection: Connection, world: World, server: Server) {
         super(world, server);
-        this.address = connection?.getAddress();
+        const rinfo = connection.getRemoteInfo();
+        this.address = new InetAddress(rinfo.address, rinfo.port)
         this.playerConnection = new PlayerConnection(server, connection, this);
         this.windows = new WindowManager();
         this.forms = new FormManager();
@@ -101,7 +102,8 @@ export default class Player extends Human {
 
         const playerData = await this.getWorld().getPlayerData(this);
 
-        void this.setGamemode(Gamemode.getGamemodeId(playerData.gamemode));
+        // May break login sequence...
+        // void this.setGamemode(Gamemode.getGamemodeId(playerData.gamemode));
         await this.setX(playerData.position.x);
         await this.setY(playerData.position.y);
         await this.setZ(playerData.position.z);
@@ -241,7 +243,7 @@ export default class Player extends Human {
      * Send a chat message to the client.
      * @param message the message
      */
-    public async sendMessage(message: string, type: TextType = TextType.Raw): Promise<void> {
+    public async sendMessage(message: string, type: TextType = TextType.Chat): Promise<void> {
         // TODO: Do this properly like java edition,
         // in other words, the message should be JSON formatted.
         await this.playerConnection.sendMessage(message, '', false, type);

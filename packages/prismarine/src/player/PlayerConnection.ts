@@ -1,7 +1,7 @@
 import AdventureSettingsPacket, { AdventureSettingsFlags } from '../network/packet/AdventureSettingsPacket';
 import { CommandArgumentEntity, CommandArgumentGamemode } from '../command/CommandArguments';
 import CommandParameter, { CommandParameterType } from '../network/type/CommandParameter';
-import { Connection, Protocol } from '@jsprismarine/raknet';
+import { Connection, FrameReliability } from '@jsprismarine/raknet';
 import PlayerListPacket, { PlayerListAction, PlayerListEntry } from '../network/packet/PlayerListPacket';
 
 import AddPlayerPacket from '../network/packet/AddPlayerPacket';
@@ -64,6 +64,7 @@ export default class PlayerConnection {
 
     // To refactor
     public async sendDataPacket(packet: DataPacket): Promise<void> {
+        console.log(packet.constructor.name)
         const batch = new BatchPacket();
         try {
             batch.addPacket(packet);
@@ -78,12 +79,7 @@ export default class PlayerConnection {
             return;
         }
 
-        // Add this in raknet
-        const sendPacket = new Protocol.EncapsulatedPacket();
-        sendPacket.reliability = 0;
-        sendPacket.buffer = batch.getBuffer();
-
-        await this.connection.addEncapsulatedToQueue(sendPacket);
+        this.connection.sendQueuedBuffer(batch.getBuffer(), FrameReliability.RELIABLE_ORDERED);
         this.server.getLogger()?.silly(`Sent §b${packet.constructor.name}§r packet`, 'PlayerConnection/sendDataPacket');
     }
 
@@ -453,7 +449,7 @@ export default class PlayerConnection {
      * @param needsTranslation If the TextType requires translation
      * @param type The text type
      */
-    public async sendMessage(message: string, xuid = '', needsTranslation = false, type = TextType.Raw): Promise<void> {
+    public async sendMessage(message: string, xuid = '', needsTranslation = false, type = TextType.Chat): Promise<void> {
         if (!message) throw new Error('A message is required');
 
         const pk = new TextPacket();
@@ -609,8 +605,8 @@ export default class PlayerConnection {
 
         pk.deviceId = this.player.device?.id ?? '';
         pk.metadata = this.player.getMetadataManager();
-        await player.getConnection().sendDataPacket(pk);
-        await this.sendSettings(player);
+        // await player.getConnection().sendDataPacket(pk);
+        // await this.sendSettings(player);
     }
 
     /**

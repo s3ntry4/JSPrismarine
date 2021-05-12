@@ -1,9 +1,9 @@
-import Identifiers from './Identifiers';
+import { Identifiers } from './Identifiers';
 import OfflinePacket from './OfflinePacket';
 
 export default class UnconnectedPing extends OfflinePacket {
     public constructor(buffer?: Buffer) {
-        super(Identifiers.UnconnectedPing, buffer);
+        super(Identifiers.UNCONNECTED_PING, buffer);
     }
 
     public sendTimestamp!: bigint;

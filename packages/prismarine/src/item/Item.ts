@@ -1,4 +1,4 @@
-import { ByteOrder, NBTReader } from '@jsprismarine/nbt';
+import { ByteOrder, NBTReader } from '../../../nbt';
 
 import BinaryStream from '@jsprismarine/jsbinaryutils';
 import { BlockToolType } from '../block/BlockToolType';

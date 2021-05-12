@@ -3,231 +3,128 @@ import Dgram, { RemoteInfo, Socket } from 'dgram';
 import Connection from './Connection';
 import Crypto from 'crypto';
 import { EventEmitter } from 'events';
-import Identifiers from './protocol/Identifiers';
-import IncompatibleProtocolVersion from './protocol/IncompatibleProtocolVersion';
-import InetAddress from './utils/InetAddress';
-import OpenConnectionReply1 from './protocol/OpenConnectionReply1';
-import OpenConnectionReply2 from './protocol/OpenConnectionReply2';
-import OpenConnectionRequest1 from './protocol/OpenConnectionRequest1';
-import OpenConnectionRequest2 from './protocol/OpenConnectionRequest2';
+import { Identifiers } from './protocol/Identifiers';
 import RakNetListener from './RakNetListener';
-import ServerName from './utils/ServerName';
 import UnconnectedPing from './protocol/UnconnectedPing';
 import UnconnectedPong from './protocol/UnconnectedPong';
+import Packet from './protocol/Packet';
 
-// Minecraft related protocol
-const PROTOCOL = 10;
-
-// Raknet ticks
-const RAKNET_TPS = 100;
-const RAKNET_TICK_LENGTH = 1 / RAKNET_TPS;
+export interface ListenOptions {
+    address?: string;
+}
 
 // Listen to packets and then process them
 export default class Listener extends EventEmitter implements RakNetListener {
-    private readonly id: bigint;
-    private name: ServerName;
-    private socket!: Socket;
+    private readonly socket: Socket;
     private readonly connections: Map<string, Connection> = new Map();
-    private get shutdown() {
-        return false;
-    }
+    private readonly guid: bigint;
+    private readonly running = true;
 
-    private readonly server: any;
-
-    public constructor(server: any) {
+    public constructor() {
         super();
-        this.server = server;
-        this.name = new ServerName(server);
         // Generate a signed random 64 bit GUID
-        const uniqueId = Crypto.randomBytes(8).readBigInt64BE();
-        this.id = uniqueId;
-        this.name.setServerId(uniqueId);
+        this.guid = Crypto.randomBytes(8).readBigInt64BE();
+        this.socket = Dgram.createSocket('udp4').on('error', (err) => {
+            throw err;
+        });
+        // this.server = server;
+        // this.name = new ServerName(server);
+        // this.name.setServerId(uniqueId);
     }
 
     /**
      * Creates a packet listener on given address and port.
      */
-    public async listen(address: string, port: number): Promise<Listener> {
-        this.socket = Dgram.createSocket({ type: 'udp4' });
-        this.socket.on('message', async (buffer: Buffer, rinfo: RemoteInfo) => {
-            const token = `${rinfo.address}:${rinfo.port}`;
-            if (this.connections.has(token)) {
-                return this.connections.get(token)!.receive(buffer);
-            }
+    public listen(port: number, options: ListenOptions = {}): Listener {
+        this.socket.bind(port, options.address, () => this.emit('listening')); // TODO
 
-            try {
-                await this.sendBuffer(await this.handleUnconnected(buffer, rinfo), rinfo.address, rinfo.port);
-            } catch (error: any) {
-                this.server
-                    .getLogger()
-                    ?.debug(`Failed to handle an offline packet: ${error}`, 'raknet/Listener/listen');
-            }
-        });
-
-        return new Promise((resolve, reject) => {
-            const failFn = (e: Error) => {
-                reject(e);
-            };
-
-            this.socket.once('error', failFn);
-            this.socket.bind(port, address, () => {
-                this.socket.removeListener('error', failFn);
-
-                const timer = setInterval(async () => {
-                    if (!this.shutdown) {
-                        await Promise.all(
-                            Array.from(this.connections.values()).map(async (conn) => conn.update(Date.now()))
-                        );
-                    } else {
-                        clearInterval(timer);
-                    }
-                }, RAKNET_TICK_LENGTH * 1000);
-
-                resolve(this);
-            });
-        });
-    }
-
-    public async kill(): Promise<void> {
-        // Wait for all remining packets to be sent
-        return new Promise((resolve) => {
-            const inter = setInterval(() => {
-                const packets = Array.from(this.connections.values()).map((a) => a.getSendQueue());
-
-                if (packets.length <= 0) {
-                    clearInterval(inter);
-                    resolve();
+        this.socket.on('message', async (msg, rinfo) => {
+            if (!(await this.handleUnconnected(msg, rinfo))) {
+                const session = this.retriveConnection(msg, rinfo);
+                if (session != null) {
+                    await session.handle(msg, rinfo);
+                } else {
+                    return;
                 }
-            }, 50);
+            }
         });
+
+        // Sync handle all sessions
+        const tick = setInterval(() => {
+            if (!this.running) {
+                clearInterval(tick);
+            }
+
+            for (const connection of this.connections.values()) {
+                connection.tick(Date.now());
+            }
+        }, 50);
+
+        return this
     }
 
-    private async handleUnconnected(buffer: Buffer, rinfo: RemoteInfo): Promise<Buffer> {
-        const header = buffer.readUInt8();
+    private async handleUnconnected(buffer: Buffer, rinfo: RemoteInfo): Promise<boolean> {
+        const packetId = buffer.readUInt8();
 
-        switch (header) {
-            case Identifiers.Query:
-                this.emit('raw', buffer, new InetAddress(rinfo.address, rinfo.port));
-                return buffer;
-            case Identifiers.UnconnectedPing:
-                return this.handleUnconnectedPing(buffer);
-            case Identifiers.OpenConnectionRequest1:
-                return this.handleOpenConnectionRequest1(buffer);
-            case Identifiers.OpenConnectionRequest2:
-                return this.handleOpenConnectionRequest2(
-                    buffer,
-                    new InetAddress(
-                        rinfo.address,
-                        rinfo.port,
-                        rinfo.family === 'IPv4' ? 4 : 6 // V6 is not implemented yet
-                    )
-                );
-            default:
-                throw new Error(`Unknown unconnected packet with ID: 0x${header.toString(16)}`);
+        if (packetId == Identifiers.UNCONNECTED_PING) {
+            await this.handleUnconnectedPing(buffer, rinfo)
+            return true
+        } else if (packetId == Identifiers.UNCONNECTED_PING_OPEN_CONNECTION) {
+            // TODO: guid & guid connections
+            await this.handleUnconnectedPing(buffer, rinfo)
+            return true
         }
+        return false
     }
 
-    // Async handlers
-    private async handleUnconnectedPing(buffer: Buffer): Promise<Buffer> {
-        return new Promise((resolve) => {
-            const decodedPacket = new UnconnectedPing(buffer);
-            decodedPacket.decode();
+    private async handleUnconnectedPing(buffer: Buffer, rinfo: RemoteInfo): Promise<void> {
+        const unconnectedPing = new UnconnectedPing(buffer)
+        unconnectedPing.decode()
 
-            if (!decodedPacket.isValid()) {
-                throw new Error('Received an invalid offline message');
-            }
+        const unconnectedPong = new UnconnectedPong()
+        unconnectedPong.sendTimestamp = unconnectedPing.sendTimestamp
+        unconnectedPong.serverGUID = this.guid
 
-            const packet = new UnconnectedPong();
-            packet.sendTimestamp = decodedPacket.sendTimestamp;
-            packet.serverGUID = this.id;
+        // TODO
+        const motd =
+        'MCPE;Test motd;428;1.16.210;0;20;' + this.guid + ';Second line;Creative;'
 
-            const serverQuery: ServerName = this.name;
-            this.emit('unconnectedPong', serverQuery);
-
-            packet.serverName = serverQuery.toString();
-            packet.encode();
-
-            resolve(packet.getBuffer());
-        });
+        unconnectedPong.serverName = motd
+        this.sendPacket(unconnectedPong, rinfo)
     }
 
-    private async handleOpenConnectionRequest1(buffer: Buffer): Promise<Buffer> {
-        return new Promise((resolve) => {
-            const decodedPacket = new OpenConnectionRequest1(buffer);
-            decodedPacket.decode();
-
-            if (!decodedPacket.isValid()) {
-                throw new Error('Received an invalid offline message');
+    private retriveConnection(msg: Buffer, rinfo: RemoteInfo): Connection | null {
+        const token = `${rinfo.address}:${rinfo.port}`;
+        if (!this.connections.has(token)) {
+            const packetId = msg.readUInt8();
+            if (packetId == Identifiers.OPEN_CONNECTION_REQUEST_1) {
+                const connection = new Connection(this, rinfo);
+                this.connections.set(token, connection);
             }
+        }
 
-            if (decodedPacket.protocol !== PROTOCOL) {
-                const packet = new IncompatibleProtocolVersion();
-                packet.protocol = PROTOCOL;
-                packet.serverGUID = this.id;
-                packet.encode();
-
-                const buffer = packet.getBuffer();
-                resolve(buffer);
-                return;
-            }
-
-            const packet = new OpenConnectionReply1();
-            packet.serverGUID = this.id;
-            packet.mtuSize = decodedPacket.mtuSize;
-            packet.encode();
-
-            resolve(packet.getBuffer());
-        });
-    }
-
-    public async handleOpenConnectionRequest2(buffer: Buffer, address: InetAddress): Promise<Buffer> {
-        return new Promise((resolve) => {
-            const decodedPacket = new OpenConnectionRequest2(buffer);
-            decodedPacket.decode();
-
-            if (!decodedPacket.isValid()) {
-                throw new Error('Received an invalid offline message');
-            }
-
-            const packet = new OpenConnectionReply2();
-            packet.serverGUID = this.id;
-            packet.mtuSize = decodedPacket.mtuSize;
-            packet.clientAddress = address;
-            packet.encode();
-
-            this.connections.set(
-                `${address.getAddress()}:${address.getPort()}`,
-                new Connection(this, decodedPacket.mtuSize, address, !this.server.getConfig().getOnlineMode())
-            );
-
-            resolve(packet.getBuffer());
-        });
+        return this.connections.get(token) ?? null;
     }
 
     /**
      * Remove a connection from all connections.
      */
+    // TODO
     public async removeConnection(connection: Connection, reason?: string): Promise<void> {
-        const inetAddr = connection.getAddress();
-        const token = `${inetAddr.getAddress()}:${inetAddr.getPort()}`;
+        const rinfo = connection.getRemoteInfo()
+        const token = `${rinfo.address}:${rinfo.port}`;
         if (this.connections.has(token)) {
             await this.connections.get(token)?.close();
             this.connections.delete(token);
         }
 
-        this.emit('closeConnection', connection.getAddress(), reason);
+        this.emit('closeConnection', rinfo, reason);
     }
 
-    /**
-     * Send packet buffer to the client.
-     */
-    public async sendBuffer(buffer: Buffer, address: string, port: number): Promise<void> {
-        return new Promise((resolve, reject) => {
-            this.socket.send(buffer, 0, buffer.length, port, address, (err) => {
-                // Ignore errors
-                resolve();
-            });
-        });
+    public sendPacket<T extends Packet>(packet: T, rinfo: RemoteInfo): void {
+        packet.encode()  // TODO: proper checks
+        const buffer = packet.getBuffer()
+        this.socket.send(buffer, 0, buffer.length, rinfo.port, rinfo.address)
     }
 
     public getSocket() {
@@ -238,11 +135,7 @@ export default class Listener extends EventEmitter implements RakNetListener {
         return this.connections;
     }
 
-    public getName() {
-        return this.name;
-    }
-
-    public setName(name: ServerName) {
-        this.name = name;
+    public getGUID(): bigint {
+        return this.guid;
     }
 }

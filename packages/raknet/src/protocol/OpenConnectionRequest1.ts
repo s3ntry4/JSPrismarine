@@ -1,9 +1,9 @@
-import Identifiers from './Identifiers';
+import { Identifiers } from './Identifiers';
 import OfflinePacket from './OfflinePacket';
 
 export default class OpenConnectionRequest1 extends OfflinePacket {
     public constructor(buffer?: Buffer) {
-        super(Identifiers.OpenConnectionRequest1, buffer);
+        super(Identifiers.OPEN_CONNECTION_REQUEST_1, buffer);
     }
 
     public mtuSize!: number;

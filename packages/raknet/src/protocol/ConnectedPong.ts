@@ -1,13 +1,13 @@
-import Identifiers from './Identifiers';
+import { Identifiers } from './Identifiers';
 import Packet from './Packet';
 
 export default class ConnectedPong extends Packet {
-    public constructor() {
-        super(Identifiers.ConnectedPong);
-    }
-
     public clientTimestamp!: bigint;
     public serverTimestamp!: bigint;
+
+    public constructor() {
+        super(Identifiers.CONNECTED_PONG);
+    }
 
     public encodePayload(): void {
         this.writeLong(this.clientTimestamp);

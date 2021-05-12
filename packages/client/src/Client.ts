@@ -1,4 +1,4 @@
-import { Connection, ConnectionPriority, InetAddress, Protocol, RakNetListener } from '@jsprismarine/raknet';
+import { Connection, InetAddress, Protocol, RakNetListener } from '@jsprismarine/raknet';
 import Dgram, { Socket } from 'dgram';
 import { Protocol as JSPProtocol, Logger } from '@jsprismarine/prismarine';
 import { clearIntervalAsync, setIntervalAsync } from 'set-interval-async/dynamic';
@@ -82,13 +82,13 @@ export default class Client extends EventEmitter implements RakNetListener {
 
                 const sendPk = new Protocol.EncapsulatedPacket();
                 sendPk.reliability = 0;
-                sendPk.buffer = pk.getBuffer();
+                sendPk.content = pk.getBuffer();
 
-                await this.connection!.addEncapsulatedToQueue(sendPk, ConnectionPriority.NORMAL); // Packet needs to be splitted
+                // await this.connection!.addEncapsulatedToQueue(sendPk, ConnectionPriority.NORMAL); // Packet needs to be splitted
                 this.loginHandled = true;
             }
 
-            await this.connection?.update(Date.now());
+            // await this.connection?.update(Date.now());
         }, RAKNET_TICK_LENGTH * 1000);
         return this;
     }
@@ -97,10 +97,10 @@ export default class Client extends EventEmitter implements RakNetListener {
         const header = buffer.readUInt8(); // Read packet header
 
         if (this.connection && this.offlineHandled) {
-            return this.connection.receive(buffer);
+            // return this.connection.receive(buffer);
         }
 
-        let buf;
+        /* let buf;
         switch (header) {
             case Protocol.Identifiers.UnconnectedPong:
                 buf = this.handleUnconnectedPong(buffer);
@@ -115,7 +115,7 @@ export default class Client extends EventEmitter implements RakNetListener {
                 break;
             default:
                 this.logger.warn(`Unhandled offline packet ID: ${header}`, 'Client/handle');
-        }
+        } */
     }
 
     public handleUnconnectedPong(buffer: Buffer) {
@@ -154,7 +154,7 @@ export default class Client extends EventEmitter implements RakNetListener {
 
         // Encode response
         const packet = new Protocol.OpenConnectionRequest2();
-        packet.serverAddress = this.targetAddress;
+        // packet.serverAddress = this.targetAddress;
         packet.mtuSize = DEF_MTU_SIZE;
         packet.clientGUID = this.clientGUID;
         packet.encode();
@@ -162,7 +162,7 @@ export default class Client extends EventEmitter implements RakNetListener {
         // Update session status
         this.connecting = true;
         // This.status = ConnectionStatus.Connected;
-        this.connection = new Connection(this as any, DEF_MTU_SIZE, this.targetAddress);
+        // this.connection = new Connection(this as any, DEF_MTU_SIZE, this.targetAddress);
 
         return packet.getBuffer();
     }
@@ -186,9 +186,9 @@ export default class Client extends EventEmitter implements RakNetListener {
 
         const sendPacket = new Protocol.EncapsulatedPacket();
         sendPacket.reliability = 0;
-        sendPacket.buffer = packet.getBuffer();
+        // sendPacket.buffer = packet.getBuffer();
 
-        void this.connection?.addToQueue(sendPacket, 1);
+        // void this.connection?.addToQueue(sendPacket, 1);
 
         this.offlineHandled = true;
         this.connected = true; // Should be... we can't rely on it

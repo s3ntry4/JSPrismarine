@@ -25,6 +25,7 @@ import QueryManager from './query/QueryManager';
 import RaknetConnectEvent from './events/raknet/RaknetConnectEvent';
 import RaknetDisconnectEvent from './events/raknet/RaknetDisconnectEvent';
 import RaknetEncapsulatedPacketEvent from './events/raknet/RaknetEncapsulatedPacketEvent';
+import { RemoteInfo } from 'dgram';
 import TelemetryManager from './telemetry/TelemeteryManager';
 import { TickEvent } from './events/Events';
 import Timer from './utils/Timer';
@@ -92,6 +93,7 @@ export default class Server {
         this.config.onEnable();
         await this.workerManager.onEnable();
         await BlockMappings.initMappings();
+        console.log(BlockMappings.getRuntimeId(0, 0))
         await this.packetRegistry.onEnable();
         await this.permissionManager.onEnable();
         await this.pluginManager.onEnable();
@@ -125,7 +127,7 @@ export default class Server {
         await this.onEnable();
         await this.worldManager.onEnable();
 
-        this.raknet = await new Listener(this as any).listen(serverIp, port);
+        this.raknet = new Listener().listen(port, { address: serverIp });
         this.raknet.on('openConnection', async (connection: Connection) => {
             const event = new RaknetConnectEvent(connection);
             await this.getEventManager().emit('raknetConnect', event);
@@ -136,8 +138,8 @@ export default class Server {
             await this.getEventManager().emit('raknetDisconnect', event);
         });
 
-        this.raknet.on('encapsulated', async (packet: Protocol.EncapsulatedPacket, inetAddr: InetAddress) => {
-            const event = new RaknetEncapsulatedPacketEvent(inetAddr, packet);
+        this.raknet.on('encapsulated', async (packet: Protocol.EncapsulatedPacket, rinfo: RemoteInfo) => {
+            const event = new RaknetEncapsulatedPacketEvent(rinfo, packet);
             await this.getEventManager().emit('raknetEncapsulatedPacket', event);
         });
 
@@ -154,7 +156,7 @@ export default class Server {
             const timer = new Timer();
 
             const connection = raknetConnectEvent.getConnection();
-            const token = `${connection.getAddress().getAddress()}:${connection.getAddress().getPort()}`;
+            const token = `${connection.getRemoteInfo().address}:${connection.getRemoteInfo().port}`;
             this.getLogger()?.debug(`${token} is attempting to connect`, 'Server/listen/raknetDisconnect');
 
             const world = this.getWorldManager().getDefaultWorld()!;
@@ -232,15 +234,16 @@ export default class Server {
 
         this.getEventManager().on('raknetEncapsulatedPacket', async (event) => {
             const raknetPacket = event.getPacket();
-            const inetAddr = event.getInetAddr();
+            console.log(raknetPacket)
+            const inetAddr: Connection = (event.getInetAddr() as any) as Connection;
 
-            const token = `${inetAddr.getAddress()}:${inetAddr.getPort()}`;
+            const token = `${inetAddr.getRemoteInfo().address}:${inetAddr.getRemoteInfo().port}`;
 
             try {
                 const player = this.playerManager.getPlayer(token);
 
                 // Read batch content and handle them
-                const batched = new BatchPacket(raknetPacket.buffer);
+                const batched = new BatchPacket(raknetPacket.content);
                 batched.decode();
 
                 // Read all packets inside batch and handle them
@@ -332,7 +335,7 @@ export default class Server {
 
             await this.worldManager.onDisable();
             await this.onDisable();
-            await this.raknet?.kill(); // this.raknet might be undefined if we kill the server really early
+            // TODO: await this.raknet?.kill(); // this.raknet might be undefined if we kill the server really early
             process.exit(options?.crash ? 1 : 0);
         } catch (error) {
             this.getLogger()?.error(error, 'Server/kill');

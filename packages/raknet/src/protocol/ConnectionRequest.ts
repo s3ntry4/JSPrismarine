@@ -1,13 +1,13 @@
-import Identifiers from './Identifiers';
+import { Identifiers } from './Identifiers';
 import Packet from './Packet';
 
 export default class ConnectionRequest extends Packet {
-    public constructor(buffer?: Buffer) {
-        super(Identifiers.ConnectionRequest, buffer);
-    }
-
     public clientGUID!: bigint;
     public requestTimestamp!: bigint;
+
+    public constructor(buffer?: Buffer) {
+        super(Identifiers.CONNECTION_REQUEST, buffer);
+    }
 
     public decodePayload(): void {
         this.clientGUID = this.readLong();

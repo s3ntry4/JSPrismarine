@@ -6,6 +6,7 @@ import ChatEvent from '../../events/chat/ChatEvent';
 import Gamemode from '../../world/Gamemode';
 import Identifiers from '../Identifiers';
 import PacketHandler from './PacketHandler';
+import PlayStatusType from '../type/PlayStatusType';
 import type Player from '../../player/Player';
 import PlayerSpawnEvent from '../../events/player/PlayerSpawnEvent';
 import type ResourcePackResponsePacket from '../packet/ResourcePackResponsePacket';
@@ -54,8 +55,7 @@ export default class ResourcePackResponseHandler implements PacketHandler<Resour
             await player.getConnection().sendDataPacket(new AvailableActorIdentifiersPacket());
 
             await player.getConnection().sendDataPacket(new BiomeDefinitionListPacket());
-
-            await player.getConnection().sendAttributes(player.getAttributeManager().getDefaults());
+            // await player.getConnection().sendAttributes(player.getAttributeManager().getDefaults());
 
             server
                 .getLogger()
@@ -72,13 +72,14 @@ export default class ResourcePackResponseHandler implements PacketHandler<Resour
             await player.getConnection().sendAvailableCommands();
             await player.getConnection().sendInventory();
 
-            await player.getConnection().sendCreativeContents();
+            await player.getConnection().sendCreativeContents(true);
+            await player.getConnection().sendPlayStatus(PlayStatusType.PlayerSpawn)
 
             // First add
-            await player.getConnection().addToPlayerList();
+            // await player.getConnection().addToPlayerList();
             // Then retrieve other players
             if (server.getPlayerManager().getOnlinePlayers().length > 1) {
-                await player.getConnection().sendPlayerList();
+                // await player.getConnection().sendPlayerList();
             }
 
             // Announce connection
@@ -87,10 +88,10 @@ export default class ResourcePackResponseHandler implements PacketHandler<Resour
                     server.getConsole(),
                     `§e${player.getName()} joined the game`,
                     '*.everyone',
-                    ChatType.Announcement
+                    ChatType.Chat
                 )
             );
-            await server.getEventManager().emit('chat', chatSpawnEvent);
+            // await server.getEventManager().emit('chat', chatSpawnEvent);
 
             // Update soft commandenums
             const packet = new UpdateSoftEnumPacket();
@@ -101,10 +102,10 @@ export default class ResourcePackResponseHandler implements PacketHandler<Resour
                 .map((player) => player.getName());
             packet.type = packet.TYPE_SET;
 
-            server
-                .getPlayerManager()
-                .getOnlinePlayers()
-                .forEach(async (player) => player.getConnection().sendDataPacket(pk));
+            // server
+            //    .getPlayerManager()
+            //    .getOnlinePlayers()
+            //     .forEach(async (player) => player.getConnection().sendDataPacket(pk));
         }
     }
 }
